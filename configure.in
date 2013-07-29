@@ -1,0 +1,13 @@
+AC_PREREQ([2.67])
+AC_INIT([repeat],[1.0.0],[dlowe@dlowe.net])
+AM_INIT_AUTOMAKE([repeat], [1.0])
+AC_PROG_CC
+AC_PROG_CC_C99
+
+AC_CHECK_LIB([rt], [clock_gettime])
+AC_HEADER_STDBOOL
+
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_HEADERS([config.h])
+
+AC_OUTPUT

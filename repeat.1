@@ -1,0 +1,49 @@
+.TH REPEAT "1" "March 2013" "repeat 1.0.0" "User Commands"
+.SH NAME
+repeat \- execute command repeatedly
+.SH SYNOPSIS
+.B repeat
+[\fI-ehipx\fR] [\fI--times=<n>\fR] [\fI--interval=<n>\fR] \fI<command>\fR
+.SH DESCRIPTION
+Repeatedly call COMMAND forever, or until specified option.
+.SH OPTIONS
+.TP
+\fB\-i\fR, \fB\-\-interval\fR=\fIDURATION\fR
+specifies the interval between invocations.
+.TP
+\fB\-t\fR, \fB\-\-times\fR=\fINUM\fR
+execute for number of times, then stop
+.TP
+\fB\-e\fR, \fB\-\-errexit\fR
+stop repeating when command's exit code is non\-zero
+.TP
+\fB\-p\fR, \fB\-\-precise\fR
+runs command at specified intervals instead of waiting
+the interval between executions
+.TP
+\fB\-x\fR, \fB\-\-noshell\fR
+runs command via exec() instead of via "sh \fB\-c\fR"
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+display usage and exit
+.TP
+\fB\-v\fR, \fB\-\-version\fR
+display version info and exit
+.SH EXAMPLES
+.TP
+repeat echo Hello World
+Prints out Hello World forever
+.TP
+repeat \fB\-n\fR 5 echo Hello World
+Prints out Hello World five times
+.TP
+repeat \fB\-i\fR 1 echo Hello World
+Prints out Hello World with a second between
+each invocation
+.TP
+repeat \fB\-i\fR 1 \fB\-e\fR \fB\-p\fR \fB\-t\fR 5 echo Hello World
+Prints out Hello World five times,
+once a second, stopping if echo
+returns an error.
+.SH AUTHOR
+Written by Daniel Lowe.

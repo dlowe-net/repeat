@@ -1,0 +1,6 @@
+rm -rf config.cache autom4te.cache config.log
+ln -sf README.md README
+aclocal
+autoconf                                                                        
+autoheader                                                                      
+automake -a
