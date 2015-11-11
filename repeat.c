@@ -150,7 +150,7 @@ parse_arguments(int argc, char *argv[], int *return_val) {
         // spaces
         size_t *strlens = calloc(argc, sizeof(size_t));
         int total_len = arg_count - 1;  // start with spaces required
-        for (int i = optind; argv[i] != NULL; i++) {
+        for (int i = optind; i < argc; i++) {
             strlens[i] = strlen(argv[i]);
             total_len += strlens[i];
         }
@@ -158,10 +158,10 @@ parse_arguments(int argc, char *argv[], int *return_val) {
         char *write_pt = command;
         strcpy(write_pt, argv[optind]);
         write_pt += strlens[optind];
-        for (int i = optind + 1; argv[i] != NULL; i++) {
+        for (int i = optind + 1; i < argc; i++) {
             *write_pt++ = ' ';
             strcpy(write_pt, argv[i]);
-            write_pt += strlens[optind];
+            write_pt += strlens[i];
         }
 
         free(strlens);
