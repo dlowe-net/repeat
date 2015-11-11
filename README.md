@@ -3,7 +3,7 @@ Repeat - a command line utility
 
 This command line program will execute a command repeatedly.  It is intended to replace the shell pattern:
 
-    while true; do something; sleep $seconds; done
+    while sleep $seconds; do something; done
 
 With options, it is considerably more flexible.
 
