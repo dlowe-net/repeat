@@ -3,7 +3,7 @@
 repeat \- execute command repeatedly
 .SH SYNOPSIS
 .B repeat
-[\fI-ehipx\fR] [\fI--times=<n>\fR] [\fI--interval=<n>\fR] \fI<command>\fR
+[\fI-ezhipx\fR] [\fI--times=<n>\fR] [\fI--interval=<n>\fR] \fI<command>\fR
 .SH DESCRIPTION
 Repeatedly call COMMAND forever, or until specified option.
 .SH OPTIONS
@@ -16,6 +16,9 @@ execute for number of times, then stop
 .TP
 \fB\-e\fR, \fB\-\-errexit\fR
 stop repeating when command's exit code is non\-zero
+.TP
+\fB\-z\fR, \fB\-\-zeroexit\fR
+stop repeating when command's exit code is zero
 .TP
 \fB\-p\fR, \fB\-\-precise\fR
 runs command at specified intervals instead of waiting
