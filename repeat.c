@@ -241,6 +241,9 @@ main(int argc, char *argv[])
             fprintf(stderr, "Couldn't run command: %s\n", strerror(errno));
             return 1;
         }
+        if (WEXITSTATUS(ret) != 0 && exit_on_error) {
+            return WEXITSTATUS(ret);
+        }
         if (WIFSIGNALED(ret) &&
             (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)) {
             return 0;
