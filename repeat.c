@@ -249,7 +249,7 @@ main(int argc, char *argv[])
         if (times > 0) {
             times--;
             if (times == 0) {
-                return 0;
+                return WEXITSTATUS(ret);
             }
         }
 
