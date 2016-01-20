@@ -24,6 +24,7 @@ const char *USAGE =
     "  -i, --interval=DURATION  specifies the interval between invocations.\n"
     "  -t, --times=NUM          execute for number of times, then stop\n"
     "  -e, --errexit   stop repeating when command's exit code is non-zero\n"
+    "  -z, --zeroexit  stop repeating when command's exit code is zero\n"
     "  -p, --precise   runs command at specified intervals instead of waiting\n"
     "                  the interval between executions\n"
     "  -x, --noshell   runs command via exec() instead of via \"sh -c\"\n"
@@ -45,6 +46,7 @@ int times = 0;
 struct timespec interval_ts = { 0, 0 };
 bool precise = false;
 bool exit_on_error = false;
+bool exit_on_success = false;
 bool use_exec = false;
 bool debug = false;
 int cmd_arg_idx = 0;
@@ -57,6 +59,7 @@ parse_arguments(int argc, char *argv[], int *return_val) {
         { "interval", required_argument, NULL, 'i' },
         { "precise", no_argument, NULL, 'p' },
         { "errexit", no_argument, NULL, 'e' },
+        { "zeroexit", no_argument, NULL, 'z' },
         { "noshell", no_argument, NULL, 'x' },
         { "version", no_argument, NULL, 'V' },
         { "help", no_argument, NULL, 'h' },
@@ -74,7 +77,7 @@ parse_arguments(int argc, char *argv[], int *return_val) {
     // processing options at the first non-option, which is what we
     // want for the subcommand.
     setenv("POSIXLY_CORRECT", "", false);
-    while ((c = getopt_long(argc, argv, "t:i:edhpVx", long_options, &option_idx)) != -1) {
+    while ((c = getopt_long(argc, argv, "t:i:ezdhpVx", long_options, &option_idx)) != -1) {
         switch (c) {
         case '?':
             return 1;
@@ -120,6 +123,9 @@ parse_arguments(int argc, char *argv[], int *return_val) {
             break;
         case 'e':
             exit_on_error = true;
+            break;
+        case 'z':
+            exit_on_success = true;
             break;
         case 'x':
             use_exec = true;
@@ -198,6 +204,7 @@ main(int argc, char *argv[])
         printf("interval_ts = { %ld, %ld }\n", interval_ts.tv_sec, interval_ts.tv_nsec);
         printf("precise = %s\n", (precise) ? "true":"false");
         printf("exit_on_error = %s\n", (exit_on_error) ? "true":"false");
+        printf("exit_on_success = %s\n", (exit_on_success) ? "true":"false");
         printf("use_exec = %s\n", (use_exec) ? "true":"false");
         fflush(stdout);
     }
@@ -244,6 +251,10 @@ main(int argc, char *argv[])
         if (WEXITSTATUS(ret) != 0 && exit_on_error) {
             return WEXITSTATUS(ret);
         }
+        if (WEXITSTATUS(ret) == 0 && exit_on_success) {
+            return 0;
+        }
+
         if (WIFSIGNALED(ret) &&
             (WTERMSIG(ret) == SIGINT || WTERMSIG(ret) == SIGQUIT)) {
             return 0;
