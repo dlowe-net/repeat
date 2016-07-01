@@ -77,7 +77,7 @@ parse_arguments(int argc, char *argv[], int *return_val) {
     // processing options at the first non-option, which is what we
     // want for the subcommand.
     setenv("POSIXLY_CORRECT", "", false);
-    while ((c = getopt_long(argc, argv, "t:i:ezdhpVx", long_options, &option_idx)) != -1) {
+    while ((c = getopt_long(argc, argv, "t:i:eszdhpVx", long_options, &option_idx)) != -1) {
         switch (c) {
         case '?':
             return 1;
